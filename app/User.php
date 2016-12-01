@@ -43,8 +43,7 @@ class User extends Model
     {
         $user_name = $request->get('user_name');
 
-        $user_and_isRegisted = static::isRegisted( $user_name ) ;
-        if ($user_and_isRegisted && Hash::check($request->get('password'), $user_and_isRegisted->password)) {
+        if (self::isRegisted( $user_name )) {
             $request->session()->put('user_name', $user_name);
             return true;
         }
