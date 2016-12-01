@@ -13,7 +13,7 @@ class User extends Model
     //是否已经登陆
     public static function isLogged($user_name)
     {
-        return Session::get('user_name') == $id? true : false;
+        return Session::get('user_name') == $user_name? true : false;
     }
 
 
