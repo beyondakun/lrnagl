@@ -13,14 +13,14 @@ class User extends Model
     //是否已经登陆
     public static function isLogged($user_name)
     {
-        return Session::get('user_name') == $id? true : false;
+        return session('user_name', '') === $user_name ? true : false;
     }
 
 
     //是否已经注册
     public static function isRegisted($user_name)
     {
-        return User::where('name', $user_name)->first() ?: false ;
+        return User::where('user_name', $user_name)->first() ?: false ;
     }
 
 
@@ -43,7 +43,8 @@ class User extends Model
     {
         $user_name = $request->get('user_name');
 
-        if (self::isRegisted( $user_name )) {
+        $user_and_isRegisted = static::isRegisted( $user_name ) ;
+        if ($user_and_isRegisted && Hash::check($request->get('password'), $user_and_isRegisted->password)) {
             $request->session()->put('user_name', $user_name);
             return true;
         }
